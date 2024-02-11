@@ -40,26 +40,6 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
             <ul class="navbar-nav ml-auto">
-                {% if not user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" href="{% url 'host_register' %}">{% translate "register"|title %}</a>
-                    </li>
-                {% endif %}
-                {% if not user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" href="{% url 'login' %}">{% translate "login"|title %}</a>
-                    </li>
-                {% endif %}
-                {% if user.is_authenticated %}
-                    {% if not user.is_consumer %}
-                        <li class="nav-item">
-                            <a class="nav-link page-scroll" href="{% url 'apartment_list_own_apartments' %}">{% translate "your.adds"|capfirst %}</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" href="{% url 'logout' %}">{% translate "logout"|title %}</a>
-                    </li>
-                {% endif %}
             </ul>
         </div>
     </nav> <!-- end of navbar -->
@@ -81,10 +61,6 @@
                     <div class="footer-col second">
                         <h5>Ссылки</h5>
                         <ul class="list-unstyled li-space-lg p-small">
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <a href="{% url 'apartment_create' %}">{% translate "add.advertisment"|capfirst %}</a>
-                            </li>
                         </ul>
                     </div>
                 </div> <!-- end of col -->
