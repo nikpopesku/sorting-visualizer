@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from os.path import abspath
 
 
 def homepage(request):
@@ -12,7 +13,7 @@ def homepage(request):
 
     # Set plotting style
     g.set(terminal='pngcairo transparent enhanced font "arial,8" fontscale 1.0 size 512, 280 ',
-          output='"quick_example.png"',
+          output='"visualizer/static/visualizer/img/quick_example.png"',
           style=["fill transparent solid 0.50 noborder", "data lines", "function filledcurves y1=0"],
           key='title "Gaussian Distribution" center fixed left top vertical Left reverse enhanced autotitle nobox noinvert samplen 1 spacing 1 width 0 height 0',
           title='"Transparent filled curves"',
@@ -29,5 +30,5 @@ def homepage(request):
     g.plot('d1(x) fs solid 1.0 lc rgb "forest-green" title "μ =  0.5 σ = 0.5"',
            'd2(x) lc rgb "gold" title "μ =  2.0 σ = 1.0"',
            'd3(x) lc rgb "dark-violet" title "μ = -1.0 σ = 2.0"')
-    
+
     return render(request, "homepage.html")
