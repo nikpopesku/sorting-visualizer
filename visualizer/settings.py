@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sorting_visualizer.urls'
+ROOT_URLCONF = 'visualizer.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sorting_visualizer.wsgi.application'
+WSGI_APPLICATION = 'visualizer.wsgi.application'
 
 
 # Database
