@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 django = "*"
+py-gnuplot = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
