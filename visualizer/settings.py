@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'channels',
     # own
     "visualizer",
+    "apps.chat",
 ]
 
 CHANNEL_LAYERS = {
@@ -48,6 +49,8 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
+
+ASGI_APPLICATION = "visualizer.asgi.application"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
