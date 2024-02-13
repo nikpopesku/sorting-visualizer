@@ -23,6 +23,7 @@ from visualizer.views import homepage
 urlpatterns = [
     path("", homepage, name="homepage"),
     path('admin/', admin.site.urls),
+    path("chat/", include("apps.chat.urls")),
 ]
 
 if settings.DEBUG:
