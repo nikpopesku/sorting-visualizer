@@ -10,6 +10,7 @@ channels = "*"
 daphne = "*"
 django-environ = "*"
 psycopg2-binary = "*"
+channels-redis = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
