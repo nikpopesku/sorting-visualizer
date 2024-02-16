@@ -8,6 +8,11 @@
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+    <input id="generate-array" type="button" value="Generate array">
+    <input id="bubble-sort" type="button" value="Bubble sort">
+    <input id="merge-sort" type="button" value="Merge sort">
+    <input id="selection-sort" type="button" value="Selection sort">
+    <input id="count-sort" type="button" value="Count sort">
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
