@@ -14,6 +14,7 @@ channels-redis = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
+pre-commit = "*"
 
 [requires]
 python_version = "3.10"
