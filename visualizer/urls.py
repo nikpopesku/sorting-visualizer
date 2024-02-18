@@ -14,16 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
 from django.conf import settings
 from django.conf.urls import include
-from visualizer.views import homepage
+from django.contrib import admin
+from django.urls import path
 
 urlpatterns = [
-    path("", homepage, name="homepage"),
     path('admin/', admin.site.urls),
-    path("chat/", include("apps.chat.urls")),
+    path("", include("apps.chat.urls")),
 ]
 
 if settings.DEBUG:
@@ -32,4 +30,3 @@ if settings.DEBUG:
     urlpatterns = [
         path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns
-
