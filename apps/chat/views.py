@@ -1,13 +1,12 @@
 from io import StringIO
 
 import matplotlib.pyplot as plt
-import numpy as np
 from django.shortcuts import render
 
 
 def index(request):
     x = [1, 2, 3, 4]
-    y = [3,4,10,5]
+    y = [3, 4, 10, 5]
 
     fig = plt.figure()
     plt.plot(x,y)
