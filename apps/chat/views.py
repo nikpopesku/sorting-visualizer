@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 
-def room(request):
-    return render(request, "chat/room.html", {"room_name": "chat"})
+def index(request):
+    return render(request, "chat/index.html", {"room_name": "chat"})
