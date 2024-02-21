@@ -6,11 +6,8 @@ from django.shortcuts import render
 
 
 def index(request):
-    plt.plot([1, 2, 3, 4])
-    plt.ylabel('some numbers')
-
-    x = np.arange(0,np.pi*3,.1)
-    y = np.sin(x)
+    x = [1, 2, 3, 4]
+    y = [3,4,10,5]
 
     fig = plt.figure()
     plt.plot(x,y)
