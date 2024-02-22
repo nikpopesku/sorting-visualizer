@@ -19,9 +19,9 @@ RUN apk update \
 #USER app
 
 # Install dependencies
-RUN pipenv install --dev
+#RUN pipenv install --dev
 
-COPY ./visualizer/ /app
-WORKDIR /app
+#COPY ./sorting-visualizer/ /app
+#WORKDIR /app
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+#CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
