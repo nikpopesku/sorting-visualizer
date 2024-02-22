@@ -5,6 +5,8 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 RUN mkdir /app
+COPY ./Pipfile /app
+COPY ./Pipfile.lock /app
 
 RUN apk update \
         && apk add --no-cache git openssh-client \
@@ -19,9 +21,9 @@ RUN apk update \
 #USER app
 
 # Install dependencies
-#RUN pipenv install --dev
+RUN pipenv install --dev
 
-COPY ./visualizer /app
+#COPY ./visualizer /app
 WORKDIR /app
 
 CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
