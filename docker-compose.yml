@@ -5,12 +5,14 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=sorting_visualizer
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_PORT=5432
+    expose:
+      - "5430" # Publishes 5430 to other containers but NOT to host machine
     ports:
-      - "5430:5432"
+      - "5430"
+    command: -p 5430
   web:
     build: .
     container_name: sorting_visualizer_web
@@ -20,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_NAME=postgres
+      - POSTGRES_NAME=sorting_visualizer
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
