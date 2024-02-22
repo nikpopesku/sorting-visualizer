@@ -1,28 +1,33 @@
-# Using lightweight alpine image
-FROM python:3.10-alpine
+FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
 
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
+EXPOSE 8000
 
-RUN mkdir /app
-COPY . /app
+WORKDIR /app
+
+COPY Pipfile /app
+COPY Pipfile.lock /app
 
 RUN apk update \
         && apk add --no-cache git openssh-client \
         && pip install pipenv
 
-## Creating working directory
-#RUN mkdir /app/src
-#WORKDIR /app/src
-#RUN chown -R app.app /app/
+RUN pipenv install
+COPY . /app
 
-## Creating environment
-#USER app
+ENTRYPOINT ["python3"]
+CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
-# Install dependencies
-RUN pipenv install --deploy --ignore-pipfile
+FROM builder as dev-envs
+RUN <<EOF
+apk update
+apk add git
+EOF
 
-COPY ./visualizer /app
-WORKDIR /app
+RUN <<EOF
+addgroup -S docker
+adduser -S --shell /bin/bash --ingroup docker vscode
+EOF
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
+CMD ["manage.py", "runserver", "0.0.0.0:8000"]
