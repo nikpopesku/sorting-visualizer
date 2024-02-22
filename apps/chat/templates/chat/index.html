@@ -10,7 +10,7 @@
     </div>
 <!--    <textarea id="chat-log" cols="100" rows="20"></textarea><br>-->
 <!--    <input id="chat-message-input" type="text" size="100"><br>-->
-    <input id="chat-message-submit" type="button" value="Send">
+<!--    <input id="chat-message-submit" type="button" value="Send">-->
     <input id="generate-array" type="button" value="Generate array">
     <input id="bubble-sort" type="button" value="Bubble sort">
     <input id="merge-sort" type="button" value="Merge sort">
@@ -44,7 +44,7 @@
         //     }
         // };
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
+        document.querySelector('#generate-array').onclick = function(e) {
             // const messageInputDom = document.querySelector('#chat-message-input');
             // const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
