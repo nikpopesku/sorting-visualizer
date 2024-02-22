@@ -9,9 +9,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     expose:
-      - "5432" # Publishes 5430 to other containers but NOT to host machine
+      - "5430" # Publishes 5430 to other containers but NOT to host machine
     ports:
-      - "5432:5432"
+      - "5430:5430"
+    command: -p 5430
   web:
     build: .
     container_name: sorting_visualizer_web
