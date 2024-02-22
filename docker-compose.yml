@@ -8,6 +8,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
     ports:
       - "5430:5432"
   web:
