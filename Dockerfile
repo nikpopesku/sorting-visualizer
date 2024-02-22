@@ -44,5 +44,5 @@ RUN apk update \
 WORKDIR /code
 COPY Pipfile /code/
 COPY Pipfile.lock /code/
-RUN pipenv install --system --deploy --ignore-pipfile
+RUN pipenv install --dev --system --deploy --ignore-pipfile
 COPY . /code/
