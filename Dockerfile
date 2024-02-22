@@ -21,7 +21,7 @@ RUN apk update \
 #USER app
 
 # Install dependencies
-RUN pipenv install --dev
+RUN pipenv install
 
 #COPY ./visualizer /app
 WORKDIR /app
