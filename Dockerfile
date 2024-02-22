@@ -5,8 +5,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 RUN mkdir /app
-COPY ./Pipfile /app
-COPY ./Pipfile.lock /app
+COPY . /app
 
 RUN apk update \
         && apk add --no-cache git openssh-client \
@@ -21,7 +20,7 @@ RUN apk update \
 #USER app
 
 # Install dependencies
-RUN pipenv install --system --deploy --ignore-pipfile
+RUN pipenv install --deploy --ignore-pipfile
 
 COPY ./visualizer /app
 WORKDIR /app
