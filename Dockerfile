@@ -10,7 +10,7 @@ COPY ./Pipfile.lock /app
 
 RUN apk update \
         && apk add --no-cache git openssh-client \
-        && pip install pipenv \
+        && pip install pipenv
 
 ## Creating working directory
 #RUN mkdir /app/src
@@ -21,9 +21,9 @@ RUN apk update \
 #USER app
 
 # Install dependencies
-RUN pipenv install
+RUN pipenv install --system --deploy --ignore-pipfile
 
-#COPY ./visualizer /app
+COPY ./visualizer /app
 WORKDIR /app
 
 CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
