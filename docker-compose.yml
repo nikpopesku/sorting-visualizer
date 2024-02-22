@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres
+    container_name: sorting_visualizer_db
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
@@ -11,6 +12,7 @@ services:
       - "5430:5432"
   web:
     build: .
+    container_name: sorting_visualizer_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
