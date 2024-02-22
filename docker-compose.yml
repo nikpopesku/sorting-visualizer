@@ -1,4 +1,13 @@
 services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - /dаta/redis:/root/redis
+    environment:
+      - REDIS_PORT=6379
   db:
     image: postgres
     container_name: sorting_visualizer_db
@@ -27,3 +36,4 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+      - redis
