@@ -1,10 +1,9 @@
 import json
-from io import StringIO
 
-import matplotlib.pyplot as plt
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from apps.chat.generator import generate_array
+from apps.chat.image import get_image_data
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -25,19 +24,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
-
         keys, values = generate_array(50)
-        fig = plt.figure()
-        plt.plot(keys, values)
-
-
-        imgdata = StringIO()
-        fig.savefig(imgdata, format='svg')
-        imgdata.seek(0)
 
         # Send message to room group
         await self.channel_layer.group_send(
-            self.room_group_name, {"type": "chat.message", "message": imgdata.getvalue()}
+            self.room_group_name, {"type": "chat.message", "message": get_image_data(keys, values)}
         )
 
     # Receive message from room group
