@@ -7,7 +7,7 @@ from apps.chat.generator import generate_array
 
 
 def index(request):
-    keys, values = generate_array(1, 50)
+    keys, values = generate_array(50)
 
     fig = plt.figure()
     plt.plot(keys,values)

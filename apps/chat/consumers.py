@@ -26,7 +26,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
 
-        keys, values = generate_array(5, 50)
+        keys, values = generate_array(50)
         fig = plt.figure()
         plt.plot(keys, values)
 
