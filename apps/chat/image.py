@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def get_image_data(keys, values):
     fig = plt.figure()
-    plt.plot(keys, values)
+    plt.stem(keys, values)
 
     imgdata = StringIO()
     fig.savefig(imgdata, format='svg')
