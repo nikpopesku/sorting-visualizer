@@ -3,13 +3,14 @@ from io import StringIO
 import matplotlib.pyplot as plt
 from django.shortcuts import render
 
+from apps.chat.generator import generate_array
+
 
 def index(request):
-    x = [1, 2, 3, 4]
-    y = [3, 4, 10, 5]
+    keys, values = generate_array(1, 50)
 
     fig = plt.figure()
-    plt.plot(x,y)
+    plt.plot(keys,values)
 
     imgdata = StringIO()
     fig.savefig(imgdata, format='svg')

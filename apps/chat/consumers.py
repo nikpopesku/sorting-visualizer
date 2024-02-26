@@ -4,6 +4,8 @@ from io import StringIO
 import matplotlib.pyplot as plt
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+from apps.chat.generator import generate_array
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -24,11 +26,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
 
-        x = [1, 2, 3, 4]
-        y = [1, 2, 3, 4]
-
+        keys, values = generate_array(5, 50)
         fig = plt.figure()
-        plt.plot(x, y)
+        plt.plot(keys, values)
+
 
         imgdata = StringIO()
         fig.savefig(imgdata, format='svg')
