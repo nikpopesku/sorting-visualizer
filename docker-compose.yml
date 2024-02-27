@@ -1,4 +1,8 @@
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
   redis:
     image: redis:latest
     restart: always
