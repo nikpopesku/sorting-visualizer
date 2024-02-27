@@ -1,13 +1,13 @@
 #!/bin/bash
 
-NAME="test_poiskdoma_app"                               # Name of the application
+NAME="sorting_visualizer_app"                               # Name of the application
 DJANGODIR=/var/www/tests/test_poiskdoma.net                   # Django project directory
-SOCKFILE=/var/www/tests/test_poiskdoma.net/run/gunicorn.sock  # we will communicte using this unix socket
+SOCKFILE=/var/www/tests/test_poiskdoma.net/run/gunicorn.sock  # we will communicate using this unix socket
 USER=spacer                                          # the user to run as
 GROUP=spacer                                        # the group to run as
 NUM_WORKERS=1                                       # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings.test             # which settings file should Django use
-DJANGO_WSGI_MODULE=poiskdoma.wsgi                     # WSGI module name
+DJANGO_WSGI_MODULE=sorting_visualizer.wsgi                     # WSGI module name
 
 echo "Starting $NAME as `whoami`"
 

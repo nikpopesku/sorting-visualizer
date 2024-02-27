@@ -3,6 +3,8 @@ services:
     image: nginx:latest
     ports:
       - 80:80
+    volumes:
+      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
   redis:
     image: redis:latest
     restart: always

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="poiskdoma_app"                                                       # Name of the application
+NAME="sorting_visualizer_app"                                                       # Name of the application
 DJANGODIR=/var/www/poiskdoma.net                   # Django project directory
 SOCKFILE=/var/www/poiskdoma.net/run/gunicorn.sock  # we will communicte using this unix socket
 USER=spacer                                          # the user to run as
