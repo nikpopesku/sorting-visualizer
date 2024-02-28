@@ -36,6 +36,7 @@ services:
     build: .
     container_name: visualizer_web
     command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --log-file=-
+    #command: python manage.py runserver 0.0.0.0:8000
     expose:
       - 8000
     volumes:
