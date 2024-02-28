@@ -4,7 +4,6 @@ echo "Deploy app"
 cd /var/www/sorting-visualizer
 git reset --hard
 git pull origin master
-cp -f robots/live.txt robots.txt
 pipenv install
 pipenv run python manage.py migrate
 
