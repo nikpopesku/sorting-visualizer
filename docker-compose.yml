@@ -1,16 +1,16 @@
 services:
-  nginx:
-    image: nginx:latest
-    container_name: sorting_visualizer_nginx
-    ports:
-      - 8080:80
-    volumes:
-      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - web
+#  nginx:
+#    image: nginx:latest
+#    container_name: visualizer_nginx
+#    ports:
+#      - 8080:80
+#    volumes:
+#      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
+#    depends_on:
+#      - web
   redis:
     image: redis:latest
-    container_name: sorting_visualizer_redis
+    container_name: visualizer_redis
     restart: always
     ports:
       - "6379:6379"
@@ -20,7 +20,7 @@ services:
       - REDIS_PORT=6379
   db:
     image: postgres
-    container_name: sorting_visualizer_db
+    container_name: visualizer_db
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
@@ -34,8 +34,9 @@ services:
     command: -p 5430
   web:
     build: .
-    container_name: sorting_visualizer_web
-    command: gunicorn visualizer.wsgi:application --bind 0.0.0.0:8000
+    container_name: visualizer_web
+    #command: gunicorn visualizer.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=unix:/code/run/gunicorn.sock --log-level=error --reload --log-file=- --bind 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
