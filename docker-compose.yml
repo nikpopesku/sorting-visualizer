@@ -35,8 +35,7 @@ services:
   web:
     build: .
     container_name: sorting_visualizer_web
-    #command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn visualizer.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
