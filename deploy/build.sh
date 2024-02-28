@@ -3,7 +3,7 @@
 echo "Deploy app"
 cd /var/www/sorting-visualizer
 git reset --hard
-git pull origin master
+git pull origin main
 pipenv install --python /usr/local/bin/python3.10
 pipenv run python manage.py migrate
 
