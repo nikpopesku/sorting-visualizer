@@ -6,6 +6,7 @@ services:
       - 8000:80
     volumes:
       - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
+      - static-code:/code/static
     depends_on:
       - web
   redis:
@@ -41,6 +42,7 @@ services:
       - 8000
     volumes:
       - .:/code
+      - static-code:/code/static
     environment:
       - POSTGRES_NAME=sorting_visualizer
       - POSTGRES_USER=postgres
@@ -48,3 +50,5 @@ services:
     depends_on:
       - db
       - redis
+volumes:
+  static-code:
