@@ -1,10 +1,10 @@
 #!/bin/bash
 
 NAME="sorting_visualizer_app"                               # Name of the application
-DJANGODIR=/var/www/tests/test_poiskdoma.net                   # Django project directory
-SOCKFILE=/var/www/tests/test_poiskdoma.net/run/gunicorn.sock  # we will communicate using this unix socket
-USER=spacer                                          # the user to run as
-GROUP=spacer                                        # the group to run as
+DJANGODIR=/code                   # Django project directory
+SOCKFILE=/code/run/gunicorn.sock  # we will communicate using this unix socket
+USER=root                                          # the user to run as
+GROUP=root                                        # the group to run as
 NUM_WORKERS=1                                       # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings.test             # which settings file should Django use
 DJANGO_WSGI_MODULE=sorting_visualizer.wsgi                     # WSGI module name
@@ -13,7 +13,7 @@ echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environment
 cd $DJANGODIR
-export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+#export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 # Create the run directory if it doesn't exist
