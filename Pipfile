@@ -11,6 +11,7 @@ django-environ = "*"
 psycopg2-binary = "*"
 channels-redis = "*"
 matplotlib = "*"
+gunicorn = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

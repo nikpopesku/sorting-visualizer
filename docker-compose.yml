@@ -2,7 +2,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
   redis:
