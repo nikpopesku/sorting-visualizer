@@ -35,11 +35,9 @@ services:
   web:
     build: .
     container_name: visualizer_web
-    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=unix:/code/run/gunicorn.sock --log-level=debug --reload --bind 0.0.0.0:8000  --log-file=-
+    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=unix:/code/run/gunicorn.sock --log-level=debug --reload --log-file=-
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     environment:
       - POSTGRES_NAME=sorting_visualizer
       - POSTGRES_USER=postgres
