@@ -1,13 +1,13 @@
 services:
-#  nginx:
-#    image: nginx:latest
-#    container_name: visualizer_nginx
-#    ports:
-#      - 8080:80
-#    volumes:
-#      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
-#    depends_on:
-#      - web
+  nginx:
+    image: nginx:latest
+    container_name: visualizer_nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
   redis:
     image: redis:latest
     container_name: visualizer_redis
@@ -35,8 +35,7 @@ services:
   web:
     build: .
     container_name: visualizer_web
-    #command: gunicorn visualizer.wsgi:application --bind 0.0.0.0:8000
-    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=unix:/code/run/gunicorn.sock --log-level=error --reload --log-file=- --bind 0.0.0.0:8000
+    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=unix:/code/run/gunicorn.sock --log-level=debug --reload --bind 0.0.0.0:8000  --log-file=-
     volumes:
       - .:/code
     ports:
