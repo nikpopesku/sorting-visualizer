@@ -50,18 +50,18 @@ INSTALLED_APPS = [
     "apps.chat",
 ]
 
-INSTALLED_APPS += [
-    "debug_toolbar",
-]
+if DEBUG:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
 
-def show_toolbar(request):
-    return True
+    def show_toolbar(request):
+        return True
 
-
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
-    "INTERCEPT_REDIRECTS": False,
-}
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+        "INTERCEPT_REDIRECTS": False,
+    }
 
 CHANNEL_LAYERS = {
     'default': {
@@ -84,7 +84,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
+if DEBUG:
+    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
 
 ROOT_URLCONF = 'visualizer.urls'
 
