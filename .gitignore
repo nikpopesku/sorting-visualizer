@@ -1,3 +1,4 @@
 *.png
 visualizer/.env
+config/settings/.env
 static/*

@@ -29,8 +29,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--ckprz@&3b$n_h=*u%zrd+-m87w-nh)nt&93llaar1huln&ii&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
-
 ALLOWED_HOSTS = [env("ALLOWED_LOCALHOST")]
 
 
@@ -49,19 +47,6 @@ INSTALLED_APPS = [
     "visualizer",
     "apps.chat",
 ]
-
-if DEBUG:
-    INSTALLED_APPS += [
-        "debug_toolbar",
-    ]
-
-    def show_toolbar(request):
-        return True
-
-    DEBUG_TOOLBAR_CONFIG = {
-        "SHOW_TOOLBAR_CALLBACK": show_toolbar,
-        "INTERCEPT_REDIRECTS": False,
-    }
 
 CHANNEL_LAYERS = {
     'default': {
@@ -83,9 +68,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-if DEBUG:
-    MIDDLEWARE = ["debug_toolbar.middleware.DebugToolbarMiddleware"] + MIDDLEWARE
 
 ROOT_URLCONF = 'visualizer.urls'
 
