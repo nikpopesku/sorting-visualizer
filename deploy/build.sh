@@ -5,7 +5,7 @@ cd /var/www/sorting-visualizer
 git reset --hard
 git pull origin main
 pipenv install --python /usr/local/bin/python3.10
-python manage.py migrate
+DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py migrate
 
 echo "Restart daemons"
 cat /home/spacer/pwd | sudo -S su -c "/etc/init.d/nginx restart"
