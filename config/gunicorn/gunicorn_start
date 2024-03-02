@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="sorting_visualizer_app"                                                       # Name of the application
+NAME="visualizer_app"                                                       # Name of the application
 DJANGODIR=/var/www/sorting-visualizer                   # Django project directory
 SOCKFILE=/var/www/sorting-visualizer/run/gunicorn.sock  # we will communicte using this unix socket
 USER=spacer                                          # the user to run as
@@ -27,6 +27,6 @@ exec `pipenv --venv`/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
   --workers $NUM_WORKERS \
   --user=$USER --group=$GROUP \
   --bind=unix:$SOCKFILE \
-  --log-level=error \
+  --log-level=debug \
   --reload \
   --log-file=-
