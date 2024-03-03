@@ -4,7 +4,7 @@ echo "Deploy app"
 cd /var/www/sorting-visualizer
 git reset --hard
 git pull origin main
-pipenv install --python /usr/local/bin/python3.10
+pipenv install --python /usr/local/bin/python3.11
 DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py migrate
 
 echo "Restart daemons"
