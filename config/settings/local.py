@@ -17,6 +17,7 @@ TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
 
 #DJANGO_SETTINGS_MODULE = "config.settings.local"
 
+STATIC_ROOT = "/code/static/"
 
 def show_toolbar(request):
     return True
