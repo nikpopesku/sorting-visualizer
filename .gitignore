@@ -2,3 +2,4 @@
 visualizer/.env
 config/settings/.env
 static/*
+data
