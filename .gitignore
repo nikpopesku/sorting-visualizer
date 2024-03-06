@@ -1,5 +1,11 @@
 *.png
 visualizer/.env
 config/settings/.env
+
 static/*
+!static/.gitkeep
+
+media/*
+!media/.gitkeep
+
 data
