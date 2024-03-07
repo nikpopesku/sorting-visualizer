@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:latest
+    image: nginx:1.25.4
     container_name: visualizer_nginx
     ports:
       - 8000:80
@@ -10,7 +10,7 @@ services:
     depends_on:
       - web
   redis:
-    image: redis:latest
+    image: redis:7.2.4
     container_name: visualizer_redis
     restart: always
     ports:
@@ -20,7 +20,7 @@ services:
     environment:
       - REDIS_PORT=6379
   db:
-    image: postgres
+    image: postgres:15.6
     container_name: visualizer_db
     volumes:
       - ./data/db:/var/lib/postgresql/data
