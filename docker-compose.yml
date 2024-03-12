@@ -36,10 +36,16 @@ services:
   web:
     build: .
     container_name: visualizer_web
-    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --log-file=-
+    command:
+      - /bin/sh
+      - -c
+      - |
+        daphne -b 0.0.0.0 -p 8001 --verbosity=3 visualizer.asgi:application
+        gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --log-file=-
     #command: python manage.py runserver 0.0.0.0:8000
     expose:
       - 8000
+      - 8001
     volumes:
       - .:/code
     #ports:
