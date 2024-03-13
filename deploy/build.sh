@@ -5,7 +5,7 @@ cd /var/www/sorting-visualizer
 git reset --hard
 git pull origin main
 pipenv install --python /usr/local/bin/python3.11
-DJANGO_SETTINGS_MODULE=config.settings.prod pipenv run daphne -b 0.0.0.0 -p 8001 visualizer.asgi:application
+DJANGO_SETTINGS_MODULE=config.settings.prod pipenv run daphne -b sorting-visualizer.dami.li -p 8001 visualizer.asgi:application
 pipenv run python manage.py migrate --settings config.settings.prod
 pipenv run python manage.py collectstatic --noinput --settings config.settings.prod
 
