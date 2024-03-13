@@ -9,8 +9,8 @@ DJANGO_SETTINGS_MODULE=config.settings.prod pipenv run daphne -e ssl:8001:privat
 pipenv run python manage.py migrate --settings config.settings.prod
 pipenv run python manage.py collectstatic --noinput --settings config.settings.prod
 
-#echo "Restart daemons"
-#cat /home/spacer/pwd | sudo -S su -c "/etc/init.d/nginx restart"
-#cat /home/spacer/pwd | sudo -S su -c "supervisorctl reread"
-#cat /home/spacer/pwd | sudo -S su -c "supervisorctl update visualizer"
-#cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart visualizer"
+echo "Restart daemons"
+cat /home/spacer/pwd | sudo -S su -c "/etc/init.d/nginx restart"
+cat /home/spacer/pwd | sudo -S su -c "supervisorctl reread"
+cat /home/spacer/pwd | sudo -S su -c "supervisorctl update visualizer"
+cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart visualizer"
