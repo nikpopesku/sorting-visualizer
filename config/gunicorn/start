@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="visualizer_app"                                                       # Name of the application
+NAME="sorting_visualizer_gunicorn_workers"               # Name of the application
 DJANGODIR=/var/www/sorting-visualizer                   # Django project directory
 SOCKFILE=/var/www/sorting-visualizer/run/gunicorn.sock  # we will communicte using this unix socket
 USER=spacer                                          # the user to run as
