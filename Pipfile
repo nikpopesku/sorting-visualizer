@@ -13,6 +13,7 @@ channels-redis = "*"
 matplotlib = "*"
 typing-extensions = "*"
 gunicorn = "*"
+twisted = {extras = ["tls", "http2"], version = "*"}
 
 [dev-packages]
 django-debug-toolbar = "*"
