@@ -15,4 +15,5 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 exec /home/spacer/.local/bin/pipenv run daphne \
   -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem \
+  --log-level=debug \
   visualizer.asgi:application
