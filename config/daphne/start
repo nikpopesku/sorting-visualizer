@@ -14,6 +14,9 @@ export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 exec /home/spacer/.local/bin/pipenv run daphne \
-  -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem \
+  -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem   visualizer.asgi:application \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --user=$USER --group=$GROUP \
   --log-level=debug \
-  visualizer.asgi:application
+  --reload
