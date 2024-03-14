@@ -11,5 +11,5 @@ pipenv run python manage.py collectstatic --noinput --settings config.settings.p
 echo "Restart daemons"
 cat /home/spacer/pwd | sudo -S su -c "/etc/init.d/nginx restart"
 cat /home/spacer/pwd | sudo -S su -c "supervisorctl reread"
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl update visualizer"
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart visualizer"
+cat /home/spacer/pwd | sudo -S su -c "supervisorctl update all"
+cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart all"
