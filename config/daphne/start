@@ -17,7 +17,4 @@ export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem   ${DJANGO_ASGI_MODULE}:application \
   -s $NAME \
-  --workers $NUM_WORKERS \
-  --user=$USER --group=$GROUP \
-  --log-level=debug \
-  --reload
+  -v 3
