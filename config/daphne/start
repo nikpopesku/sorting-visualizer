@@ -16,7 +16,7 @@ export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne ${DJANGO_ASGI_MODULE}:application \
-  --unix-socket=unix:/var/www/sorting-visualizer/run/daphne.sock \
+  --unix-socket=/var/www/sorting-visualizer/run/daphne.sock \
   --websocket_timeout=86400 \
   --websocket_connect_timeout=86400 \
   --server-name=$NAME \
