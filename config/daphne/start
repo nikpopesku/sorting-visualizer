@@ -15,7 +15,7 @@ cd $DJANGODIR
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
-exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne -e ssl:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem ${DJANGO_ASGI_MODULE}:application \
+exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne ${DJANGO_ASGI_MODULE}:application \
   --unix-socket=unix:/var/www/sorting-visualizer/run/daphne.sock \
   --websocket_timeout=86400 \
   --websocket_connect_timeout=86400 \
