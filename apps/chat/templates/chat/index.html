@@ -23,7 +23,7 @@
 
         const chatSocket = new WebSocket(
             'ws://'
-            + 'localhost'
+            + window.location.host
             + '/ws/chat/'
             + roomName
             + '/'
