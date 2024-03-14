@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NAME="sorting_visualizer_daphne_server"            # Name of the application
+DJANGODIR=/var/www/sorting-visualizer
 USER=spacer                                        # the user to run as
 GROUP=spacer                                        # the group to run as
 NUM_WORKERS=2                                       # how many worker processes should Gunicorn spawn
