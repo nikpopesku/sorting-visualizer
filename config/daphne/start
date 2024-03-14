@@ -6,6 +6,7 @@ USER=spacer                                        # the user to run as
 GROUP=spacer                                        # the group to run as
 NUM_WORKERS=2                                       # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=config.settings.prod         # which settings file should Django use
+DJANGO_ASGI_MODULE=visualizer.asgi
 
 echo "Starting $NAME as `whoami`"
 
@@ -14,8 +15,7 @@ cd $DJANGODIR
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
-exec /home/spacer/.local/bin/pipenv run daphne \
-  -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem   visualizer.asgi:application \
+exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne -e ssl:8001:privateKey=/var/www/sorting-visualizer/privkey.pem:certKey=/var/www/sorting-visualizer/cert.pem   ${DJANGO_ASGI_MODULE}:application \
   -s $NAME \
   --workers $NUM_WORKERS \
   --user=$USER --group=$GROUP \
