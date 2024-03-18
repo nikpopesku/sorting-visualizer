@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # own
     "visualizer",
     "apps.chat",
+    "apps.sort",
 ]
 
 CHANNEL_LAYERS = {

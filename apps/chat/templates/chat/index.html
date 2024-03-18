@@ -12,17 +12,17 @@
 <!--    <textarea id="chat-log" cols="100" rows="20"></textarea><br>-->
 <!--    <input id="chat-message-input" type="text" size="100"><br>-->
 <!--    <input id="chat-message-submit" type="button" value="Send">-->
-    <input id="generate-array" type="button" value="Generate array">
-    <input id="bubble-sort" type="button" value="Bubble sort">
-    <input id="merge-sort" type="button" value="Merge sort">
-    <input id="selection-sort" type="button" value="Selection sort">
-    <input id="count-sort" type="button" value="Count sort">
+    <input class="btn" id="generate-array" type="button" value="Generate array">
+    <input class="btn" id="bubble-sort" type="button" value="Bubble sort">
+    <input class="btn" id="merge-sort" type="button" value="Merge sort">
+    <input class="btn" id="selection-sort" type="button" value="Selection sort">
+    <input class="btn" id="count-sort" type="button" value="Count sort">
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
-            'ws://'
+            (window.location.host === 'localhost:8000' ? 'ws://' : 'wss://')
             + window.location.host
             + '/ws/chat/'
             + roomName
@@ -32,26 +32,46 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             document.querySelector('#plot').innerHTML = data.message;
+            const buttons = document.querySelectorAll('.btn')
+            buttons.forEach((button) => {
+              button.removeAttribute("disabled");
+            });
         };
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        // document.querySelector('#chat-message-input').focus();
-        // document.querySelector('#chat-message-input').onkeyup = function(e) {
-        //     if (e.key === 'Enter') {  // enter, return
-        //         document.querySelector('#chat-message-submit').click();
-        //     }
-        // };
-
         document.querySelector('#generate-array').onclick = function(e) {
-            // const messageInputDom = document.querySelector('#chat-message-input');
-            // const message = messageInputDom.value;
+            const buttons = document.querySelectorAll('.btn')
+            buttons.forEach((button) => {
+              button.disabled = true;
+            });
             chatSocket.send(JSON.stringify({
                 'message': ""
             }));
-            // messageInputDom.value = '';
+        };
+
+        document.querySelector('#bubble-sort').onclick = function(e) {
+            const buttons = document.querySelectorAll('.btn')
+            buttons.forEach((button) => {
+              button.disabled = true;
+            });
+
+            chatSocket.send(JSON.stringify({
+                'message': "bubble"
+            }));
+        };
+
+        document.querySelector('#merge-sort').onclick = function(e) {
+            const buttons = document.querySelectorAll('.btn')
+            buttons.forEach((button) => {
+              button.disabled = true;
+            });
+
+            chatSocket.send(JSON.stringify({
+                'message': "merge"
+            }));
         };
     </script>
 </body>
