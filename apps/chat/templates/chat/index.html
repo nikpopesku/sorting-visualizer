@@ -9,14 +9,12 @@
     <div id="plot">
         {{ pyplot | safe }}
     </div>
-<!--    <textarea id="chat-log" cols="100" rows="20"></textarea><br>-->
-<!--    <input id="chat-message-input" type="text" size="100"><br>-->
-<!--    <input id="chat-message-submit" type="button" value="Send">-->
-    <input class="btn" id="generate-array" type="button" value="Generate array">
-    <input class="btn" id="bubble-sort" type="button" value="Bubble sort">
-    <input class="btn" id="merge-sort" type="button" value="Merge sort">
-    <input class="btn" id="selection-sort" type="button" value="Selection sort">
-    <input class="btn" id="count-sort" type="button" value="Count sort">
+    {{ array|json_script:"array-data" }}
+    <input class="btn" data-type="" id="generate-array" type="button" value="Generate array">
+    <input class="btn" data-type="bubble" id="bubble-sort" type="button" value="Bubble sort">
+    <input class="btn" data-type="merge" id="merge-sort" type="button" value="Merge sort">
+    <input class="btn" data-type="selection" id="selection-sort" type="button" value="Selection sort">
+    <input class="btn" data-type="count" id="count-sort" type="button" value="Count sort">
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -31,9 +29,10 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#plot').innerHTML = data.message;
-            const buttons = document.querySelectorAll('.btn')
-            buttons.forEach((button) => {
+
+            document.querySelector('#plot').innerHTML = data.pic;
+            document.getElementById('array-data').textContent =JSON.stringify(data.array);
+            document.querySelectorAll('.btn').forEach((button) => {
               button.removeAttribute("disabled");
             });
         };
@@ -42,37 +41,21 @@
             console.error('Chat socket closed unexpectedly');
         };
 
-        document.querySelector('#generate-array').onclick = function(e) {
-            const buttons = document.querySelectorAll('.btn')
-            buttons.forEach((button) => {
-              button.disabled = true;
+        let buttons = document.querySelectorAll(".btn")
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function(event) {
+                document.querySelectorAll('.btn').forEach((button) => {
+                    button.disabled = true;
+                });
+
+                let sort_type = event.target.getAttribute('data-type')
+
+                chatSocket.send(JSON.stringify({
+                    'sort_type': sort_type,
+                    'array': (sort_type === "" ? [] : JSON.parse(document.getElementById('array-data').textContent))
+                }));
             });
-            chatSocket.send(JSON.stringify({
-                'message': ""
-            }));
-        };
-
-        document.querySelector('#bubble-sort').onclick = function(e) {
-            const buttons = document.querySelectorAll('.btn')
-            buttons.forEach((button) => {
-              button.disabled = true;
-            });
-
-            chatSocket.send(JSON.stringify({
-                'message': "bubble"
-            }));
-        };
-
-        document.querySelector('#merge-sort').onclick = function(e) {
-            const buttons = document.querySelectorAll('.btn')
-            buttons.forEach((button) => {
-              button.disabled = true;
-            });
-
-            chatSocket.send(JSON.stringify({
-                'message': "merge"
-            }));
-        };
+        }
     </script>
 </body>
 </html>

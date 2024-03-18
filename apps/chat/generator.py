@@ -3,7 +3,6 @@ from numpy.random import randint
 
 def generate_array(length: int, array_type: str) -> tuple:
     keys = range(1, length + 1)
-    print("array_type: ", array_type)
 
     if array_type == "":
         values = randint(0, 100, length)
@@ -13,6 +12,5 @@ def generate_array(length: int, array_type: str) -> tuple:
         values = randint(0, 200, length)
     else:
         values = randint(0, 100, length)
-
 
     return keys, values
