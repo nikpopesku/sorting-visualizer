@@ -5,7 +5,10 @@ from apps.chat.image import get_image_data
 
 
 def index(request):
-    message = ""
-    keys, values = generate_array(50, message)
+    keys, values = generate_array(50, "")
 
-    return render(request, "chat/index.html", {"room_name": "chat", "pyplot": get_image_data(keys, values) })
+    return render(request, "chat/index.html", {
+        "room_name": "chat",
+        "array": values.tolist(),
+        "pyplot": get_image_data(keys, values)
+    })
