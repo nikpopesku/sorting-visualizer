@@ -1,9 +1,11 @@
 import json
+from asyncio import ensure_future
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from apps.chat.generator import generate_array
 from apps.chat.image import get_image_data
+from apps.sort.method.bubble import bubble_sort
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -24,18 +26,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         sort_type = text_data_json["sort_type"] if text_data_json["sort_type"] else ""
-        keys, array = generate_array(50, sort_type)
-        array = array.tolist() if sort_type == "" else text_data_json["array"]
+        keys, array = generate_array(20, sort_type)
+        if sort_type == "":
+            array = array.tolist()
+            await self.sendit(sort_type, array, keys)
+        elif sort_type == "bubble":
+            ensure_future(self.looper(text_data_json, sort_type, keys))
+        else:
+            array = text_data_json["array"]
+            await self.sendit(sort_type, array, keys)
 
 
-        # Send message to room group
+    async def looper(self, text_data_json, sort_type, keys: list):
+        array, old_array = text_data_json["array"], []
+
+        while array != old_array:
+            array, old_array = bubble_sort(array), array
+            await self.sendit(sort_type, array, keys)
+
+
+    async def sendit(self, sort_type: str, array: list, keys: list):
         await self.channel_layer.group_send(
             self.room_group_name, {
                 "type": "chat.message",
                 "message": {
-                    "pic": get_image_data(keys, array),
                     "sort_type": sort_type,
-                    "array": array
+                    "array": array,
+                    "pic": get_image_data(keys, array),
                 }
             }
         )
@@ -46,8 +63,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(
             text_data=json.dumps({
-                "pic": event["message"]['pic'],
                 "sort_type": event["message"]["sort_type"],
-                "array": event["message"]["array"]
+                "array": event["message"]["array"],
+                "pic": event["message"]['pic'],
             })
         )
