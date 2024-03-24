@@ -5,7 +5,7 @@ from apps.chat.image import get_image_data
 
 
 def index(request):
-    keys, values = generate_array(50, "")
+    keys, values = generate_array(20, "")
 
     return render(request, "chat/index.html", {
         "room_name": "chat",
