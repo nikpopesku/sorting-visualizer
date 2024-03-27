@@ -15,11 +15,12 @@ services:
     container_name: visualizer_redis
     restart: always
     ports:
-      - "6379:6379"
+      - "6579:6579"
     volumes:
       - /dаta/redis:/root/redis
+    command: --port 6579
     environment:
-      - REDIS_PORT=6379
+      - REDIS_PORT=6579
   db:
     image: postgres:15.6
     container_name: visualizer_db
