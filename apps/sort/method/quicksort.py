@@ -1,5 +1,5 @@
 def partition(arr: list, l: int, h: int) -> int:
-    i = (l - 1)
+    i = l - 1
     x = arr[h]
 
     for j in range(l, h):
@@ -8,6 +8,7 @@ def partition(arr: list, l: int, h: int) -> int:
             arr[i], arr[j] = arr[j], arr[i]
 
     arr[i + 1], arr[h] = arr[h], arr[i + 1]
+
     return i + 1
 
 
@@ -37,6 +38,9 @@ def quicksort_iterative(arr: list) -> list:
         # sorted array
         p = partition(arr, l, h)
 
+        if xxx != arr:
+            return arr
+
         # If there are elements on left side of pivot,
         # then push left side to stack
         if p - 1 > l:
@@ -45,6 +49,9 @@ def quicksort_iterative(arr: list) -> list:
             top = top + 1
             stack[top] = p - 1
 
+        if xxx != arr:
+            return arr
+
         # If there are elements on right side of pivot,
         # then push right side to stack
         if p + 1 < h:
@@ -52,6 +59,7 @@ def quicksort_iterative(arr: list) -> list:
             stack[top] = p + 1
             top = top + 1
             stack[top] = h
+
         if xxx != arr:
             return arr
 
