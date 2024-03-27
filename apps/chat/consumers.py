@@ -6,6 +6,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from apps.chat.generator import generate_array
 from apps.chat.image import get_image_data
 from apps.sort.method.bubble import bubble_sort
+from apps.sort.method.quicksort import quicksort_iterative
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -18,9 +19,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
+
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -31,17 +34,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
             array = array.tolist()
             await self.sendit(sort_type, array, keys)
         elif sort_type == "bubble":
-            ensure_future(self.looper(text_data_json, sort_type, keys))
+            ensure_future(self.looper(text_data_json, sort_type, keys, bubble_sort))
+        elif sort_type == "quicksort":
+            ensure_future(self.looper(text_data_json, sort_type, keys, quicksort_iterative))
         else:
             array = text_data_json["array"]
             await self.sendit(sort_type, array, keys)
 
 
-    async def looper(self, text_data_json, sort_type, keys: list):
+    async def looper(self, text_data_json, sort_type, keys: list, sort_function):
         array, old_array = text_data_json["array"], []
 
         while array != old_array:
-            array, old_array = bubble_sort(array), array
+            array, old_array = sort_function(array[:]), array
             await self.sendit(sort_type, array, keys)
 
 
@@ -57,9 +62,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+
     # Receive message from room group
     async def chat_message(self, event):
-
         # Send message to WebSocket
         await self.send(
             text_data=json.dumps({
