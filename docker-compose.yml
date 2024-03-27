@@ -1,15 +1,14 @@
 services:
-  nginx:
-    image: nginx:1.25.4
-    container_name: visualizer_nginx
-    ports:
-      - 8000:80
-    volumes:
-      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
-      - ./static:/code/static
-    depends_on:
-      - daphne
-      - gunicorn
+#  nginx:
+#    image: nginx:1.25.4
+#    container_name: visualizer_nginx
+#    ports:
+#      - 8000:80
+#    volumes:
+#      - ./config/nginx/nginx.local.conf:/etc/nginx/nginx.conf
+#      - ./static:/code/static
+#    depends_on:
+#      - server
   redis:
     image: redis:7.2.4
     container_name: visualizer_redis
@@ -35,32 +34,34 @@ services:
     ports:
       - "5430:5430"
     command: -p 5430
-  daphne:
+  server:
     build: .
-    container_name: visualizer_daphne
-    command: daphne -b 0.0.0.0 -p 8001 --websocket_timeout=-1 --verbosity=3 --websocket_connect_timeout=-1 visualizer.asgi:application
-    #command: python manage.py runserver 0.0.0.0:8000
-    expose:
-      - 8001
+    container_name: visualizer_server
+    command: python manage.py runserver 0.0.0.0:8000
+#    expose:
+#      - 8001
+    ports:
+      - "8000:8000"
     volumes:
       - .:/code
     depends_on:
       - redis
-  gunicorn:
-    build: .
-    container_name: visualizer_gunicorn
-    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --reload-engine=poll --reload-extra-file=/code/apps/chat/templates/chat/index.html
-    expose:
-      - 8000
-    volumes:
-      - .:/code
-    #ports:
-    #  - "8000:8000"
-    environment:
-      - POSTGRES_NAME=sorting_visualizer
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    depends_on:
       - db
+#  gunicorn:
+#    build: .
+#    container_name: visualizer_gunicorn
+#    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --reload-engine=poll --reload-extra-file=/code/apps/chat/templates/chat/index.html
+#    expose:
+#      - 8000
+#    volumes:
+#      - .:/code
+#    #ports:
+#    #  - "8000:8000"
+#    environment:
+#      - POSTGRES_NAME=sorting_visualizer
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    depends_on:
+#      - db
 #volumes:
 #  code:

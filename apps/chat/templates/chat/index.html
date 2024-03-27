@@ -12,9 +12,7 @@
     {{ array|json_script:"array-data" }}
     <input class="btn" data-type="" id="generate-array" type="button" value="Generate array">
     <input class="btn" data-type="bubble" id="bubble-sort" type="button" value="Bubble sort">
-    <input class="btn" data-type="merge" id="merge-sort" type="button" value="Merge sort">
-    <input class="btn" data-type="selection" id="selection-sort" type="button" value="Selection sort">
-    <input class="btn" data-type="count" id="count-sort" type="button" value="Count sort">
+    <input class="btn" data-type="quicksort" id="quicksort" type="button" value="Quicksort">
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
