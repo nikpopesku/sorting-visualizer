@@ -4,20 +4,20 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-channels = "*"
-daphne = "*"
-django-environ = "*"
-psycopg2-binary = "*"
-channels-redis = "*"
-matplotlib = "*"
-typing-extensions = "*"
-gunicorn = "*"
-twisted = {extras = ["tls", "http2"], version = "*"}
+django = "==5.0.3"
+channels = "==4.0.0"
+daphne = "==4.1.0"
+django-environ = "==0.11.2"
+psycopg2-binary = "==2.9.9"
+channels-redis = "==4.2.0"
+matplotlib = "==3.8.3"
+typing-extensions = "==4.10.0"
+gunicorn = "==21.2.0"
+twisted = {extras = ["tls", "http2"], version = "==24.3.0"}
 
 [dev-packages]
-django-debug-toolbar = "*"
-pre-commit = "*"
+django-debug-toolbar = "==4.3.0"
+pre-commit = "==3.7.0"
 
 [requires]
 python_version = "3.11"
