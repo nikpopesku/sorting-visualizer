@@ -59,9 +59,6 @@ LOGGING = {
             'format': '[%(asctime)s] %(levelname)s|%(name)s|%(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S',
         },
-        "json": {
-            '()': CustomisedJSONFormatter,
-        },
     },
     'handlers': {
         'applogfile': {
@@ -70,7 +67,7 @@ LOGGING = {
             'filename': Path(BASE_DIR).resolve().joinpath('logs', 'app.log'),
             'maxBytes': 1024 * 1024 * 15,  # 15MB
             'backupCount': 10,
-            'formatter': 'json',
+            'formatter': 'simple',
         },
         'console': {
             'level': 'DEBUG',
