@@ -62,7 +62,7 @@ LOGGING = {
     },
     'handlers': {
         'applogfile': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': Path(BASE_DIR).resolve().joinpath('logs', 'app.log'),
             'maxBytes': 1024 * 1024 * 15,  # 15MB
@@ -70,14 +70,14 @@ LOGGING = {
             'formatter': 'simple',
         },
         'console': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         }
     },
     'root': {
         'handlers': ['applogfile', 'console'],
-        'level': 'ERROR',
+        'level': 'DEBUG',
     }
 }
 
