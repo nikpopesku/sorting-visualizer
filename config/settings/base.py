@@ -15,11 +15,13 @@ from pathlib import Path
 
 import environ
 
+from visualizer.logging.formatter import CustomisedJSONFormatter
+
 env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,6 +50,39 @@ INSTALLED_APPS = [
     "apps.chat",
     "apps.sort",
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s] %(levelname)s|%(name)s|%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        "json": {
+            '()': CustomisedJSONFormatter,
+        },
+    },
+    'handlers': {
+        'applogfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': Path(BASE_DIR).resolve().joinpath('logs', 'app.log'),
+            'maxBytes': 1024 * 1024 * 15,  # 15MB
+            'backupCount': 10,
+            'formatter': 'json',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'root': {
+        'handlers': ['applogfile', 'console'],
+        'level': 'DEBUG',
+    }
+}
 
 CHANNEL_LAYERS = {
     'default': {
@@ -141,7 +176,7 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = []
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "../media/")
+MEDIA_ROOT = os.path.join(BASE_DIR, "/media/")
 
 
 
