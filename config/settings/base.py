@@ -15,8 +15,6 @@ from pathlib import Path
 
 import environ
 
-from visualizer.logging.formatter import CustomisedJSONFormatter
-
 env = environ.Env()
 environ.Env.read_env()
 
@@ -62,7 +60,7 @@ LOGGING = {
     },
     'handlers': {
         'applogfile': {
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': Path(BASE_DIR).resolve().joinpath('logs', 'app.log'),
             'maxBytes': 1024 * 1024 * 15,  # 15MB
@@ -70,14 +68,14 @@ LOGGING = {
             'formatter': 'simple',
         },
         'console': {
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         }
     },
     'root': {
         'handlers': ['applogfile', 'console'],
-        'level': 'DEBUG',
+        'level': 'ERROR',
     }
 }
 
