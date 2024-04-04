@@ -20,4 +20,4 @@ exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne ${DJANGO_ASGI_MODULE}:ap
   --websocket_timeout=86400 \
   --websocket_connect_timeout=86400 \
   --server-name=$NAME \
-  --verbosity=3
+  --verbosity=1
