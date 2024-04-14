@@ -11,7 +11,7 @@ pipenv run python manage.py collectstatic --noinput --settings config.settings.p
 echo "Restart daemons"
 /etc/init.d/nginx restart
 supervisorctl reread
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl update sorting_visualizer_daphne"
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl update sorting_visualizer_gunicorn"
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart sorting_visualizer_daphne"
-cat /home/spacer/pwd | sudo -S su -c "supervisorctl restart sorting_visualizer_gunicorn"
+supervisorctl update sorting_visualizer_daphne
+supervisorctl update sorting_visualizer_gunicorn
+supervisorctl restart sorting_visualizer_daphne
+supervisorctl restart sorting_visualizer_gunicorn
