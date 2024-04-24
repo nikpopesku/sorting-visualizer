@@ -17,18 +17,18 @@ body {font-family: "Open Sans"}
 <body class="w3-light-grey">
 
 <!-- Navigation bar with social media icons -->
-<div class="w3-bar w3-black w3-hide-small">
+<div class="w3-bar w3-black">
     <h3 style="float: left !important;    margin: 0 10px 3px 10px;">Sorting visualizer</h3>
     <a href="https://github.com/nikpopesku/sorting-visualizer" target="_blank" class="w3-bar-item w3-button w3-right"><i class="fa fa-github"></i></a>
 </div>
 
 <!-- w3-content defines a container for fixed size centered content,
 and is wrapped around the whole page content, except for the footer in this example -->
-<div class="w3-content" style="max-width:1600px">
+<div class="w3-content">
 
   <!-- Header -->
   <header class="w3-container w3-center w3-padding-48 w3-white">
-    <div id="plot">
+    <div id="plot" style="max-width: 640px;text-align: center; margin: auto;">
         {{ pyplot | safe }}
     </div>
 
@@ -45,10 +45,13 @@ and is wrapped around the whole page content, except for the footer in this exam
 
 <!-- Footer -->
 <footer class="w3-container w3-dark-grey" style="padding:32px">
-  <div class="w3-center">From 2024</div>
+  <div class="w3-center">Since 2024</div>
 </footer>
 
 <script>
+        let svg = document.getElementsByTagName('svg');
+        svg[0].removeAttribute('width')
+        svg[0].removeAttribute('height')
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
         const chatSocket = new WebSocket(
@@ -64,6 +67,9 @@ and is wrapped around the whole page content, except for the footer in this exam
 
             document.querySelector('#plot').innerHTML = data.pic;
             document.getElementById('array-data').textContent =JSON.stringify(data.array);
+            let svg = document.getElementsByTagName('svg');
+            svg[0].removeAttribute('width')
+            svg[0].removeAttribute('height')
             document.querySelectorAll('.w3-button').forEach((button) => {
               button.removeAttribute("disabled");
             });
