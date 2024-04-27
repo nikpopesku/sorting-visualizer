@@ -64,3 +64,13 @@ def quicksort_iterative(arr: list) -> list:
             return arr
 
     return arr
+
+
+def quicksort_iterative_average():
+    return 'nlog(n)'
+
+def quicksort_iterative_worst():
+    return 'n2'
+
+def quicksort_iterative_best():
+    return 'nlog(n)'

@@ -6,3 +6,13 @@ def bubble_sort(arr: list) -> list:
                 return arr
 
     return arr
+
+
+def bubble_sort_average():
+    return 'n2'
+
+def bubble_sort_worst():
+    return 'n2'
+
+def bubble_sort_best():
+    return 'n'
