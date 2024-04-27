@@ -1,99 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% load static %}
-<title>Sorting visualizer</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="{% static 'chat/w3.css' %}">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-h1,h2,h3,h4,h5,h6 {font-family: "Oswald"}
-body {font-family: "Open Sans"}
-</style>
+    {% load static %}
+    <title>Sorting visualizer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'chat/w3.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Oswald"
+        }
+
+        body {
+            font-family: "Open Sans"
+        }
+    </style>
 </head>
 <body class="w3-light-grey">
 
-<!-- Navigation bar with social media icons -->
 <div class="w3-bar w3-black">
     <h3 style="float: left !important;    margin: 0 10px 3px 10px;">Sorting visualizer</h3>
-    <a href="https://github.com/nikpopesku/sorting-visualizer" target="_blank" class="w3-bar-item w3-button w3-right"><i class="fa fa-github"></i></a>
+    <a href="https://github.com/nikpopesku/sorting-visualizer" target="_blank" class="w3-bar-item w3-button w3-right"><i
+            class="fa fa-github"></i></a>
 </div>
 
-<!-- w3-content defines a container for fixed size centered content,
-and is wrapped around the whole page content, except for the footer in this example -->
 <div class="w3-content">
+    <header class="w3-container w3-center w3-padding-48 w3-white">
+        <div id="plot" style="max-width: 640px;text-align: center; margin: auto;">
+            {{ pyplot | safe }}
+        </div>
 
-  <!-- Header -->
-  <header class="w3-container w3-center w3-padding-48 w3-white">
-    <div id="plot" style="max-width: 640px;text-align: center; margin: auto;">
-        {{ pyplot | safe }}
-    </div>
+        {{ array|json_script:"array-data" }}
+        <button class="w3-button w3-black" data-type="" id="generate-array" type="button" value="">Generate array
+        </button>
+        <button class="w3-button w3-black" data-type="bubble" id="bubble-sort">Bubble sort</button>
+        <button class="w3-button w3-black" data-type="quicksort" id="quicksort">Quicksort</button>
+        <br/>
+        {{ room_name|json_script:"room-name" }}
+        <div id="performance" style="visibility: hidden">
+            <div class="w3-col l3-l4 w3-white w3-margin">
+                <div class="w3-container w3-padding w3-black">
+                    <h4>Best performance</h4>
+                </div>
+                <ul class="w3-ul w3-hoverable w3-white">
+                    <li class="w3-padding-16">
+                        Ω(<span id="best_performance"></span>)
+                    </li>
+                </ul>
+            </div>
 
-    {{ array|json_script:"array-data" }}
-      <button class="w3-button w3-black" data-type="" id="generate-array" type="button" value="">Generate array</button>
-    <button class="w3-button w3-black" data-type="bubble" id="bubble-sort">Bubble sort</button>
-    <button class="w3-button w3-black" data-type="quicksort" id="quicksort">Quicksort</button>
-    {{ room_name|json_script:"room-name" }}
-  </header>
+            <div class="w3-col l3-l4 w3-white w3-margin">
+                <div class="w3-container w3-padding w3-black">
+                    <h4>Average performance</h4>
+                </div>
+                <ul class="w3-ul w3-hoverable w3-white">
+                    <li class="w3-padding-16">
+                        Θ(<span id="average_performance"></span>)
+                    </li>
+                </ul>
+            </div>
 
-<!-- END w3-content -->
+            <div class="w3-col l3-l4 w3-white w3-margin">
+                <div class="w3-container w3-padding w3-black">
+                    <h4>Worst performance</h4>
+                </div>
+                <ul class="w3-ul w3-hoverable w3-white">
+                    <li class="w3-padding-16">
+                        O(<span id="worst_performance"></span>)
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </header>
 </div>
 
 
-<!-- Footer -->
 <footer class="w3-container w3-dark-grey" style="padding:32px">
-  <div class="w3-center">Since 2024</div>
+    <div class="w3-center">Since 2024</div>
 </footer>
 
 <script>
+    let svg = document.getElementsByTagName('svg');
+    svg[0].removeAttribute('width')
+    svg[0].removeAttribute('height')
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        (window.location.host === 'localhost:8000' ? 'ws://' : 'wss://')
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        document.querySelector('#plot').innerHTML = data.pic;
+        document.getElementById('array-data').textContent = JSON.stringify(data.array);
+        if (data.best) {
+            document.getElementById('best_performance').textContent = JSON.stringify(data.best);
+        }
+        if (data.worst) {
+            document.getElementById('worst_performance').textContent = JSON.stringify(data.worst);
+        }
+        if (data.average) {
+            document.getElementById('average_performance').textContent = JSON.stringify(data.average);
+        }
+
         let svg = document.getElementsByTagName('svg');
         svg[0].removeAttribute('width')
         svg[0].removeAttribute('height')
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        document.querySelectorAll('.w3-button').forEach((button) => {
+            button.removeAttribute("disabled");
+        });
+    };
 
-        const chatSocket = new WebSocket(
-            (window.location.host === 'localhost:8000' ? 'ws://' : 'wss://')
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-
-            document.querySelector('#plot').innerHTML = data.pic;
-            document.getElementById('array-data').textContent =JSON.stringify(data.array);
-            let svg = document.getElementsByTagName('svg');
-            svg[0].removeAttribute('width')
-            svg[0].removeAttribute('height')
+    let buttons = document.querySelectorAll(".w3-button")
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function (event) {
             document.querySelectorAll('.w3-button').forEach((button) => {
-              button.removeAttribute("disabled");
+                button.disabled = true;
             });
-        };
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+            let sort_type = event.target.getAttribute('data-type')
+            document.querySelector("#performance").style.visibility = sort_type === "" ? 'hidden' : 'visible'
 
-        let buttons = document.querySelectorAll(".w3-button")
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function(event) {
-                document.querySelectorAll('.w3-button').forEach((button) => {
-                    button.disabled = true;
-                });
-
-                let sort_type = event.target.getAttribute('data-type')
-
-                chatSocket.send(JSON.stringify({
-                    'sort_type': sort_type,
-                    'array': (sort_type === "" ? [] : JSON.parse(document.getElementById('array-data').textContent))
-                }));
-            });
-        }
-    </script>
+            chatSocket.send(JSON.stringify({
+                'sort_type': sort_type,
+                'array': (sort_type === "" ? [] : JSON.parse(document.getElementById('array-data').textContent))
+            }));
+        });
+    }
+</script>
 </body>
 </html>
