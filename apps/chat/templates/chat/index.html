@@ -103,13 +103,13 @@
         document.querySelector('#plot').innerHTML = data.pic;
         document.getElementById('array-data').textContent = JSON.stringify(data.array);
         if (data.best) {
-            document.getElementById('best_performance').textContent = JSON.stringify(data.best);
+            document.getElementById('best_performance').textContent = data.best;
         }
         if (data.worst) {
-            document.getElementById('worst_performance').textContent = JSON.stringify(data.worst);
+            document.getElementById('worst_performance').textContent = data.worst;
         }
         if (data.average) {
-            document.getElementById('average_performance').textContent = JSON.stringify(data.average);
+            document.getElementById('average_performance').textContent = data.average;
         }
 
         let svg = document.getElementsByTagName('svg');
@@ -131,8 +131,11 @@
                 button.disabled = true;
             });
 
-            let sort_type = event.target.getAttribute('data-type')
-            document.querySelector("#performance").style.visibility = sort_type === "" ? 'hidden' : 'visible'
+            let sort_type = event.target.getAttribute('data-type');
+            document.querySelector("#performance").style.visibility = sort_type === "" ? 'hidden' : 'visible';
+            document.getElementById('best_performance').textContent = '';
+            document.getElementById('worst_performance').textContent = '';
+            document.getElementById('average_performance').textContent = '';
 
             chatSocket.send(JSON.stringify({
                 'sort_type': sort_type,
