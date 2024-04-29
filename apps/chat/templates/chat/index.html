@@ -114,6 +114,7 @@
 
         document.querySelector('#plot').innerHTML = data.pic;
         document.getElementById('array-data').textContent = JSON.stringify(data.array);
+        document.querySelector("#performance").style.visibility = data.sort_type === "" ? 'hidden' : 'visible';
         if (data.best) {
             document.getElementById('best_performance').textContent = data.best;
         }
@@ -147,7 +148,6 @@
             });
 
             let sort_type = event.target.getAttribute('data-type');
-            document.querySelector("#performance").style.visibility = sort_type === "" ? 'hidden' : 'visible';
             document.getElementById('best_performance').textContent = '';
             document.getElementById('worst_performance').textContent = '';
             document.getElementById('average_performance').textContent = '';
