@@ -74,6 +74,17 @@
                     </li>
                 </ul>
             </div>
+
+            <div class="w3-col l4 w3-white">
+                <div class="w3-container w3-padding w3-black">
+                    <h4>Auxiliary space complexity</h4>
+                </div>
+                <ul class="w3-ul w3-hoverable w3-white">
+                    <li class="w3-padding-16">
+                        O(<span id="space_complexity"></span>)
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </header>
@@ -112,6 +123,9 @@
         if (data.average) {
             document.getElementById('average_performance').textContent = data.average;
         }
+        if (data.space) {
+            document.getElementById('space_complexity').textContent = data.space;
+        }
 
         let svg = document.getElementsByTagName('svg');
         svg[0].removeAttribute('width')
@@ -137,6 +151,7 @@
             document.getElementById('best_performance').textContent = '';
             document.getElementById('worst_performance').textContent = '';
             document.getElementById('average_performance').textContent = '';
+            document.getElementById('space_complexity').textContent = '';
 
             chatSocket.send(JSON.stringify({
                 'sort_type': sort_type,
