@@ -16,3 +16,6 @@ def bubble_sort_worst():
 
 def bubble_sort_best():
     return 'n'
+
+def bubble_space_complexity():
+    return '1'
