@@ -8,6 +8,8 @@ from apps.chat.generator import generate_array
 from apps.chat.image import get_image_data
 from apps.sort.method.bubble import (bubble_sort, bubble_sort_average,
                                      bubble_sort_best, bubble_sort_worst)
+from apps.sort.method.insertion import (insertion_average, insertion_best,
+                                        insertion_sort, insertion_worst)
 from apps.sort.method.quicksort import (quicksort_iterative,
                                         quicksort_iterative_average,
                                         quicksort_iterative_best,
@@ -42,6 +44,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             ensure_future(self.looper(text_data_json, sort_type, keys, bubble_sort, bubble_sort_best, bubble_sort_worst, bubble_sort_average))
         elif sort_type == "quicksort":
             ensure_future(self.looper(text_data_json, sort_type, keys, quicksort_iterative, quicksort_iterative_best, quicksort_iterative_worst, quicksort_iterative_average))
+        elif sort_type == "insertion":
+            ensure_future(self.looper(text_data_json, sort_type, keys, insertion_sort, insertion_best, insertion_worst, insertion_average))
         else:
             array = text_data_json["array"]
             await self.sendit(sort_type, array, keys, None, None, None)
