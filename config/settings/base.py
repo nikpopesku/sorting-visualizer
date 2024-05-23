@@ -43,11 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
+    'compressor',
     # own
     "visualizer",
     "apps.chat",
     "apps.sort",
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders
+    'compressor.finders.CompressorFinder',
+)
 
 LOGGING = {
     'version': 1,

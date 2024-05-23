@@ -15,6 +15,7 @@ typing-extensions = "==4.10.0"
 gunicorn = "==21.2.0"
 twisted = {extras = ["tls", "http2"], version = "==24.3.0"}
 json-log-formatter = "==1.0"
+django-compressor = "==4.4"
 
 [dev-packages]
 django-debug-toolbar = "==4.3.0"
