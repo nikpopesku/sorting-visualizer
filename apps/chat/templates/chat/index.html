@@ -136,15 +136,19 @@
         document.querySelector('#plot').innerHTML = data.pic;
         document.getElementById('array-data').textContent = JSON.stringify(data.array);
         document.querySelector("#performance").style.visibility = data.sort_type === "" ? 'hidden' : 'visible';
+
         if (data.best) {
             document.getElementById('best_performance').textContent = data.best;
         }
+
         if (data.worst) {
             document.getElementById('worst_performance').textContent = data.worst;
         }
+
         if (data.average) {
             document.getElementById('average_performance').textContent = data.average;
         }
+
         if (data.space) {
             document.getElementById('space_complexity').textContent = data.space;
         }
@@ -152,9 +156,12 @@
         let svg = document.getElementsByTagName('svg');
         svg[0].removeAttribute('width')
         svg[0].removeAttribute('height')
-        document.querySelectorAll('.w3-button').forEach((button) => {
-            button.removeAttribute("disabled");
-        });
+
+        if (data.sort_type === "" || data.final_step) {
+            document.querySelectorAll('.w3-button').forEach((button) => {
+                button.removeAttribute("disabled");
+            });
+        }
     };
 
     chatSocket.onclose = function (e) {
