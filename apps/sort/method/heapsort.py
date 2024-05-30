@@ -17,6 +17,7 @@ def heapify(arr, n, i):
 
 
 def heap_sort(arr):
+    old_arr = arr[:]
     n = len(arr)
 
     # Build max heap
@@ -31,7 +32,8 @@ def heap_sort(arr):
         # Heapify root element
         heapify(arr, i, 0)
 
-        return arr
+        if old_arr[i:n] != arr[i:n]:
+            return arr
 
     return arr
 
