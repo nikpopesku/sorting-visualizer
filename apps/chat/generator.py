@@ -1,16 +1,5 @@
 from numpy.random import randint
 
 
-def generate_array(length: int, array_type: str) -> tuple:
-    keys = range(1, length + 1)
-
-    if array_type == "":
-        values = randint(0, 100, length)
-    elif array_type == "bubble":
-        values = randint(0, 20, length)
-    elif array_type == "merge":
-        values = randint(0, 200, length)
-    else:
-        values = randint(0, 100, length)
-
-    return keys, values
+def generate_array(length: int) -> tuple:
+    return range(1, length + 1), randint(0, 100, length)
