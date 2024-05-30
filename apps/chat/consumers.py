@@ -9,7 +9,7 @@ from apps.chat.image import get_image_data
 from apps.sort.method.bubble import (bubble_sort, bubble_sort_average,
                                      bubble_sort_best, bubble_sort_worst,
                                      bubble_space_complexity)
-from apps.sort.method.heapsort import (heapSort, heapsort_iterative_average,
+from apps.sort.method.heapsort import (heap_sort, heapsort_iterative_average,
                                        heapsort_iterative_best,
                                        heapsort_iterative_worst,
                                        heapsort_space_complexity)
@@ -86,7 +86,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 text_data_json,
                 sort_type,
                 keys,
-                insertion_sort,
+                heap_sort,
                 heapsort_iterative_best,
                 heapsort_iterative_worst,
                 heapsort_iterative_average,
