@@ -27,17 +27,22 @@ def heap_sort(arr):
         # Swap
         arr[i], arr[0] = arr[0], arr[i]
 
+
         # Heapify root element
         heapify(arr, i, 0)
+
+        return arr
+
+    return arr
 
 def heapsort_iterative_average():
     return 'nlog(n)'
 
 def heapsort_iterative_worst():
-    return 'n2'
+    return 'nlog(n)'
 
 def heapsort_iterative_best():
     return 'nlog(n)'
 
 def heapsort_space_complexity():
-    return 'nlog(n)'
+    return '1'
