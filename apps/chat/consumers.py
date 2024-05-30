@@ -9,6 +9,10 @@ from apps.chat.image import get_image_data
 from apps.sort.method.bubble import (bubble_sort, bubble_sort_average,
                                      bubble_sort_best, bubble_sort_worst,
                                      bubble_space_complexity)
+from apps.sort.method.heapsort import (heap_sort, heapsort_iterative_average,
+                                       heapsort_iterative_best,
+                                       heapsort_iterative_worst,
+                                       heapsort_space_complexity)
 from apps.sort.method.insertion import (insertion_average, insertion_best,
                                         insertion_sort,
                                         insertion_space_complexity,
@@ -40,7 +44,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         sort_type = text_data_json["sort_type"] if text_data_json["sort_type"] else ""
-        keys, array = generate_array(20, sort_type)
+        keys, array = generate_array(20)
         if sort_type == "":
             array = array.tolist()
             await self.sendit(sort_type, array, keys, None, None, None, None, None)
@@ -77,17 +81,47 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 insertion_average,
                 insertion_space_complexity
             ))
+        elif sort_type == "heapsort":
+            ensure_future(self.looper(
+                text_data_json,
+                sort_type,
+                keys,
+                heap_sort,
+                heapsort_iterative_best,
+                heapsort_iterative_worst,
+                heapsort_iterative_average,
+                heapsort_space_complexity
+            ))
         else:
             array = text_data_json["array"]
             await self.sendit(sort_type, array, keys, None, None, None, None, None)
 
 
-    async def looper(self, text_data_json, sort_type, keys: list, sort_function, best, worst, average, space):
+    async def looper(
+            self,
+            text_data_json,
+            sort_type,
+            keys: list,
+            sort_function,
+            best,
+            worst,
+            average,
+            space
+    ):
         array, old_array = text_data_json["array"], []
 
         while array != old_array:
             array, old_array = sort_function(array[:]), array
-            await self.sendit(sort_type, array, keys, best(), worst(), average(), space(), array == old_array)
+            await self.sendit(
+                sort_type,
+                array,
+                keys,
+                best(),
+                worst(),
+                average(),
+                space(),
+                array == old_array
+            )
 
 
     async def sendit(
