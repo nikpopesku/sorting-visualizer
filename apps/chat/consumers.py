@@ -112,7 +112,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         while array != old_array:
             array, old_array = sort_function(array[:]), array
-            await self.sendit(sort_type, array, keys, best(), worst(), average(), space(), array == old_array)
+            await self.sendit(
+                sort_type,
+                array,
+                keys,
+                best(),
+                worst(),
+                average(),
+                space(),
+                array == old_array
+            )
 
 
     async def sendit(
