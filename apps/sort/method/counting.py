@@ -1,4 +1,5 @@
 def counting_sort(array: list) -> list:
+    initial_arr = array[:]
     size = len(array)
     output = [0] * size
 
@@ -26,7 +27,14 @@ def counting_sort(array: list) -> list:
 
     # Copy the sorted elements into original array
     for i in range(0, size):
+        temp = array[i]
         array[i] = output[i]
+
+        if initial_arr[i] != array[i]:
+            index = initial_arr.index(output[i], i)
+            array[index] = temp
+
+            return array
 
     return array
 
