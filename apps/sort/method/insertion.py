@@ -29,5 +29,8 @@ def insertion_worst():
 def insertion_best():
     return 'n'
 
+def insertion_explanation():
+    return ''
+
 def insertion_space_complexity():
     return '1'

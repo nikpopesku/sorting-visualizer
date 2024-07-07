@@ -38,14 +38,17 @@ def counting_sort(array: list) -> list:
 
     return array
 
-def counting_iterative_average():
+def counting_average():
     return 'n+k'
 
-def counting_iterative_worst():
+def counting_worst():
     return 'n+k'
 
-def counting_iterative_best():
+def counting_best():
     return 'n+k'
+
+def counting_explanation():
+    return '<div>max - is the maximum value in the array</div><div>k - is number of different values in the array</div>'
 
 def counting_space_complexity():
-    return 'max, max - is the maximum value in the array'
+    return 'max'
