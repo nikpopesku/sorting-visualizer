@@ -94,7 +94,7 @@
             </div>
 
 
-            <div class="w3-col l4 w3-white">
+            <div id="explanation-outer" class="w3-col l4 w3-white" style="visibility: hidden">
                 <div class="w3-container w3-padding w3-black">
                     <h4>Explanation</h4>
                 </div>
@@ -167,6 +167,7 @@
             document.getElementById('space_complexity').textContent = data.space;
         }
 
+        document.getElementById('explanation-outer').style.visibility = (data.explanation === "" || data.explanation === null) ? 'hidden' : 'visible';
         if (data.explanation) {
             document.getElementById('explanation').innerHTML = data.explanation;
         }
@@ -198,7 +199,7 @@
             document.getElementById('worst_performance').textContent = '';
             document.getElementById('average_performance').textContent = '';
             document.getElementById('space_complexity').textContent = '';
-            document.getElementById('explanation').textContent = '';
+            document.getElementById('explanation').innerHTML = '';
 
             chatSocket.send(JSON.stringify({
                 'sort_type': sort_type,
