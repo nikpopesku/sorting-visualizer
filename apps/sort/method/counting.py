@@ -1,70 +1,31 @@
-def partition(arr: list, l: int, h: int) -> int:
-    i = l - 1
-    x = arr[h]
+def counting_sort(array: list) -> list:
+    size = len(array)
+    output = [0] * size
 
-    for j in range(l, h):
-        if arr[j] <= x:
-            i = i + 1
-            arr[i], arr[j] = arr[j], arr[i]
+    # Initialize count array
+    count = [0] * 100
 
-    arr[i + 1], arr[h] = arr[h], arr[i + 1]
+    # Store the count of each element in count array
+    for i in range(0, size):
+        count[array[i]] += 1
 
-    return i + 1
+    # Store the cummulative count
+    for i in range(1, 10):
+        count[i] += count[i - 1]
 
+    # Find the index of each element of the original array in count array
+    # place the elements in output array
+    i = size - 1
+    while i >= 0:
+        output[count[array[i]] - 1] = array[i]
+        count[array[i]] -= 1
+        i -= 1
 
-def counting_iterative(arr: list) -> list:
-    xxx = arr[:]
-    l = 0
-    h = len(arr) - 1
-    # Create an auxiliary stack
-    size = h - l + 1
-    stack = [0] * size
-    # initialize top of stack
-    top = -1
-    # push initial values of l and h to stack
-    top = top + 1
-    stack[top] = l
-    top = top + 1
-    stack[top] = h
-    # Keep popping from stack while is not empty
-    while top >= 0:
-        # Pop h and l
-        h = stack[top]
-        top = top - 1
-        l = stack[top]
-        top = top - 1
+    # Copy the sorted elements into original array
+    for i in range(0, size):
+        array[i] = output[i]
 
-        # Set pivot element at its correct position in
-        # sorted array
-        p = partition(arr, l, h)
-
-        if xxx != arr:
-            return arr
-
-        # If there are elements on left side of pivot,
-        # then push left side to stack
-        if p - 1 > l:
-            top = top + 1
-            stack[top] = l
-            top = top + 1
-            stack[top] = p - 1
-
-        if xxx != arr:
-            return arr
-
-        # If there are elements on right side of pivot,
-        # then push right side to stack
-        if p + 1 < h:
-            top = top + 1
-            stack[top] = p + 1
-            top = top + 1
-            stack[top] = h
-
-        if xxx != arr:
-            return arr
-
-    return arr
-
+    return array
 
 def counting_iterative_average():
     return 'nlog(n)'
