@@ -2,15 +2,18 @@ def counting_sort(array: list) -> list:
     size = len(array)
     output = [0] * size
 
+    mmax = max(array)
     # Initialize count array
-    count = [0] * 100
+    count = [0] * (mmax + 1)
+
+
 
     # Store the count of each element in count array
     for i in range(0, size):
         count[array[i]] += 1
 
     # Store the cummulative count
-    for i in range(1, 10):
+    for i in range(1, mmax+1):
         count[i] += count[i - 1]
 
     # Find the index of each element of the original array in count array
