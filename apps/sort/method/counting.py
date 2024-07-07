@@ -39,13 +39,13 @@ def counting_sort(array: list) -> list:
     return array
 
 def counting_iterative_average():
-    return 'nlog(n)'
+    return 'n+k'
 
 def counting_iterative_worst():
-    return 'n2'
+    return 'n+k'
 
 def counting_iterative_best():
-    return 'nlog(n)'
+    return 'n+k'
 
 def counting_space_complexity():
-    return 'nlog(n)'
+    return 'max, max - is the maximum value in the array'
