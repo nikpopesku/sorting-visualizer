@@ -46,5 +46,8 @@ def heapsort_iterative_worst():
 def heapsort_iterative_best():
     return 'nlog(n)'
 
+def heapsort_iterative_explanation():
+    return ''
+
 def heapsort_space_complexity():
     return '1'

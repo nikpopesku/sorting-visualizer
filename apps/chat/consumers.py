@@ -7,19 +7,26 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from apps.chat.generator import generate_array
 from apps.chat.image import get_image_data
 from apps.sort.method.bubble import (bubble_sort, bubble_sort_average,
-                                     bubble_sort_best, bubble_sort_worst,
+                                     bubble_sort_best, bubble_sort_explanation,
+                                     bubble_sort_worst,
                                      bubble_space_complexity)
+from apps.sort.method.counting import (counting_average, counting_best,
+                                       counting_explanation, counting_sort,
+                                       counting_space_complexity,
+                                       counting_worst)
 from apps.sort.method.heapsort import (heap_sort, heapsort_iterative_average,
                                        heapsort_iterative_best,
+                                       heapsort_iterative_explanation,
                                        heapsort_iterative_worst,
                                        heapsort_space_complexity)
 from apps.sort.method.insertion import (insertion_average, insertion_best,
-                                        insertion_sort,
+                                        insertion_explanation, insertion_sort,
                                         insertion_space_complexity,
                                         insertion_worst)
 from apps.sort.method.quicksort import (quicksort_iterative,
                                         quicksort_iterative_average,
                                         quicksort_iterative_best,
+                                        quicksort_iterative_explanation,
                                         quicksort_iterative_worst,
                                         quicksort_space_complexity)
 
@@ -47,7 +54,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         keys, array = generate_array(20)
         if sort_type == "":
             array = array.tolist()
-            await self.sendit(sort_type, array, keys, None, None, None, None, None)
+            await self.sendit(sort_type, array, keys, None, None, None, None, None, None)
         elif sort_type == "bubble":
             ensure_future(self.looper(
                 text_data_json,
@@ -57,7 +64,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 bubble_sort_best,
                 bubble_sort_worst,
                 bubble_sort_average,
-                bubble_space_complexity
+                bubble_space_complexity,
+                bubble_sort_explanation
             ))
         elif sort_type == "quicksort":
             ensure_future(self.looper(
@@ -68,7 +76,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 quicksort_iterative_best,
                 quicksort_iterative_worst,
                 quicksort_iterative_average,
-                quicksort_space_complexity
+                quicksort_space_complexity,
+                quicksort_iterative_explanation
+            ))
+        elif sort_type == "counting":
+            ensure_future(self.looper(
+                text_data_json,
+                sort_type,
+                keys,
+                counting_sort,
+                counting_best,
+                counting_worst,
+                counting_average,
+                counting_space_complexity,
+                counting_explanation,
             ))
         elif sort_type == "insertion":
             ensure_future(self.looper(
@@ -79,7 +100,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 insertion_best,
                 insertion_worst,
                 insertion_average,
-                insertion_space_complexity
+                insertion_space_complexity,
+                insertion_explanation,
             ))
         elif sort_type == "heapsort":
             ensure_future(self.looper(
@@ -90,7 +112,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 heapsort_iterative_best,
                 heapsort_iterative_worst,
                 heapsort_iterative_average,
-                heapsort_space_complexity
+                heapsort_space_complexity,
+                heapsort_iterative_explanation
             ))
         else:
             array = text_data_json["array"]
@@ -106,7 +129,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             best,
             worst,
             average,
-            space
+            space,
+            explanation,
     ):
         array, old_array = text_data_json["array"], []
 
@@ -120,6 +144,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 worst(),
                 average(),
                 space(),
+                explanation(),
                 array == old_array
             )
 
@@ -133,6 +158,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             worst: Optional[str],
             average: Optional[str],
             space: Optional[str],
+            explanation: Optional[str],
             final_step: Optional[bool]
     ):
         await self.channel_layer.group_send(
@@ -145,6 +171,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "worst": worst,
                     "average": average,
                     "space": space,
+                    "explanation": explanation,
                     "final_step": final_step,
                     "pic": get_image_data(keys, array),
                 }
@@ -162,6 +189,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "worst": event["message"]['worst'],
                 "average": event["message"]['average'],
                 "space": event["message"]['space'],
+                "explanation": event["message"]['explanation'],
                 "final_step": event["message"]['final_step'],
                 "array": event["message"]["array"],
                 "pic": event["message"]['pic'],

@@ -75,5 +75,8 @@ def quicksort_iterative_worst():
 def quicksort_iterative_best():
     return 'nlog(n)'
 
+def quicksort_iterative_explanation():
+    return ''
+
 def quicksort_space_complexity():
     return 'nlog(n)'
