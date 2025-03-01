@@ -13,6 +13,7 @@ services:
   db:
     image: postgres:15.6
     container_name: visualizer_db
+    user: 1000:1000
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
@@ -25,33 +26,18 @@ services:
       - "5430:5430"
     command: -p 5430
   server:
-    build: .
+    build:
+      dockerfile: Dockerfile-dev
     container_name: visualizer_server
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:9000
 #    expose:
 #      - 8001
     ports:
-      - "8000:8000"
+      - "9000:9000"
     volumes:
       - .:/code
     depends_on:
       - redis
       - db
-#  gunicorn:
-#    build: .
-#    container_name: visualizer_gunicorn
-#    command: gunicorn visualizer.wsgi:application --name visualizer_app --workers 1 --bind=0.0.0.0:8000 --log-level=debug --reload --reload-engine=poll --reload-extra-file=/code/apps/chat/templates/chat/index.html
-#    expose:
-#      - 8000
-#    volumes:
-#      - .:/code
-#    #ports:
-#    #  - "8000:8000"
-#    environment:
-#      - POSTGRES_NAME=sorting_visualizer
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    depends_on:
-#      - db
 #volumes:
 #  code:
