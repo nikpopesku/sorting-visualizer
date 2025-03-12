@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="sorting_visualizer_daphne_server"            # Name of the application
-DJANGODIR=/var/www/sorting-visualizer
+DJANGODIR=/app
 USER=spacer                                        # the user to run as
 GROUP=spacer                                        # the group to run as
 NUM_WORKERS=2                                       # how many worker processes should Gunicorn spawn
@@ -16,7 +16,7 @@ export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
 exec `/home/spacer/.local/bin/pipenv --venv`/bin/daphne ${DJANGO_ASGI_MODULE}:application \
-  --unix-socket=/var/www/sorting-visualizer/run/daphne.sock \
+  --unix-socket=/app/run/daphne.sock \
   --websocket_timeout=86400 \
   --websocket_connect_timeout=86400 \
   --server-name=$NAME \
