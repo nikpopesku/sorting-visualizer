@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE="config.settings.dev"
 
 RUN apk update \
-        && apk add --no-cache git openssh-client \
+        && apk add --no-cache git openssh-client bash \
         && pip install pipenv
 
 WORKDIR /app
