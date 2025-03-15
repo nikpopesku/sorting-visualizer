@@ -24,9 +24,8 @@ services:
   db:
     image: postgres:15.6
     container_name: visualizer_db
-    user: 1000:1000
     volumes:
-      - /var/www/sorting-visualizer/data/db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=sorting_visualizer
       - POSTGRES_USER=postgres
