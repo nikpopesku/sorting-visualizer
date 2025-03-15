@@ -31,10 +31,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     expose:
-      - "5430" # Publishes 5430 to other containers but NOT to host machine
-    ports:
-      - "5430:5430"
-    command: -p 5430
+      - "5432" # Publishes 5432 to other containers but NOT to host machine
+    command: -p 5432
   gunicorn:
     build:
       dockerfile: Dockerfile-prod
