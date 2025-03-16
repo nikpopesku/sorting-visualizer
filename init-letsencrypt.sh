@@ -2,7 +2,7 @@
 
 domains=(sorting-visualizer.dami.li www.sorting-visualizer.dami.li)
 rsa_key_size=4096
-data_path="./data/certbot"
+data_path="/var/www/sorting-visualizer/data/certbot"
 email="nic1k@ya.ru" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
