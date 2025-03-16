@@ -8,7 +8,7 @@ services:
     volumes:
       - /var/www/sorting-visualizer/config/nginx/nginx.prod.conf:/etc/nginx/nginx.conf
       - /var/www/sorting-visualizer:/app
-#      - /var/www/sorting-visualizer/data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
