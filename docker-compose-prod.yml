@@ -47,6 +47,7 @@ services:
     command: >
       sh -c "python manage.py migrate --settings config.settings.prod &&
              python manage.py collectstatic --noinput --settings config.settings.prod &&
+             /usr/bin/supervisord -c /etc/supervisord.conf &&
              gunicorn visualizer.wsgi:application --name visualizer_app --workers 3 --bind=unix:/app/run/gunicorn.sock --log-level=info"
     expose:
       - 9000
@@ -61,14 +62,19 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
-  daphne:
+  supervisor:
     build:
       dockerfile: Dockerfile-prod
-    container_name: visualizer_daphne
-#    command: /app/config/daphne/start
-    command: /bin/bash
+    container_name: visualizer_supervisor
+    command: >
+      sh -c "/usr/bin/supervisord -c /etc/supervisord.conf"
     volumes:
-      - /var/www/sorting-visualizer:/app
+      - type: bind
+        source: ./config/supervisor/supervisord.conf
+        target: /etc/supervisord.conf
+      - type: bind
+        source: ./config/supervisor/daphne.ini
+        target: /etc/supervisor.d/daphne.ini
     environment:
       - POSTGRES_NAME=sorting_visualizer
       - POSTGRES_USER=postgres
