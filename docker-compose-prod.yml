@@ -70,10 +70,10 @@ services:
       sh -c "/usr/bin/supervisord -c /etc/supervisord.conf"
     volumes:
       - type: bind
-        source: ./config/supervisor/supervisord.conf
+        source: /config/supervisor/supervisord.conf
         target: /etc/supervisord.conf
       - type: bind
-        source: ./config/supervisor/daphne.ini
+        source: /config/supervisor/daphne.ini
         target: /etc/supervisor.d/daphne.ini
     environment:
       - POSTGRES_NAME=sorting_visualizer
