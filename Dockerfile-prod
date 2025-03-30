@@ -16,4 +16,7 @@ RUN adduser --shell /bin/bash -h /home/spacer -D -G spacer spacer
 RUN chown -R spacer:spacer /app
 RUN pipenv install --dev --system --deploy
 
+COPY /app/config/supervisor/supervisord.conf /etc/supervisord.conf
+COPY /app/config/supervisor/daphne.ini /etc/supervisor.d/daphne.ini
+
 USER spacer
