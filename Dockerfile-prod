@@ -19,4 +19,8 @@ RUN pipenv install --dev --system --deploy
 COPY /app/config/supervisor/supervisord.conf /etc/supervisord.conf
 COPY /app/config/supervisor/daphne.ini /etc/supervisor.d/daphne.ini
 
+
+CMD ["/usr/bin/supervisord"]
+
 USER spacer
+
