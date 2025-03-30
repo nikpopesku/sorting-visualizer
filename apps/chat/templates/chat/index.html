@@ -39,8 +39,7 @@
         </div>
 
         {{ array|json_script:"array-data" }}
-        <button class="w3-sort-button w3-button w3-black" data-type="" id="generate-array" type="button" value="">Generate array
-        </button>
+        <button class="w3-sort-button w3-button w3-black" data-type="" id="generate-array" type="button" value="">Generate array</button>
         <button class="w3-sort-button w3-button w3-black" data-type="bubble" id="bubble-sort">Bubble sort</button>
         <button class="w3-sort-button w3-button w3-black" data-type="quicksort" id="quicksort">Quicksort</button>
         <button class="w3-sort-button w3-button w3-black" data-type="insertion" id="insertion">Insertion sort</button>
@@ -137,7 +136,7 @@
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
     const chatSocket = new WebSocket(
-        (window.location.host === 'localhost:8000' ? 'ws://' : 'wss://')
+        (window.location.protocol === "http:" ? 'ws://' : 'wss://')
         + window.location.host
         + '/ws/chat/'
         + roomName

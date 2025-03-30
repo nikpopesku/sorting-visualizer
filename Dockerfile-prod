@@ -4,11 +4,16 @@ ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE="config.settings.prod"
 
 RUN apk update \
-        && apk add --no-cache git openssh-client bash \
+        && apk add --no-cache bash supervisor \
         && pip install pipenv
 
 WORKDIR /app
-COPY Pipfile /app/
-COPY Pipfile.lock /app/
-RUN pipenv install --system --deploy
 COPY . /app/
+
+RUN addgroup -S spacer
+RUN adduser --shell /bin/bash -h /home/spacer -D -G spacer spacer
+
+RUN chown -R spacer:spacer /app
+RUN pipenv install --dev --system --deploy
+
+USER spacer
