@@ -1,7 +1,9 @@
+name: sorting-visualizer-dev
+
 services:
   redis:
     image: redis:7.2.4
-    container_name: visualizer_redis
+    container_name: visualizer-redis-dev
     restart: always
     ports:
       - "6579:6579"
@@ -12,7 +14,7 @@ services:
       - REDIS_PORT=6579
   db:
     image: postgres:15.6
-    container_name: visualizer_db
+    container_name: visualizer-db-dev
     environment:
       - POSTGRES_DB=sorting_visualizer
       - POSTGRES_USER=postgres
@@ -25,7 +27,7 @@ services:
   server:
     build:
       dockerfile: Dockerfile-dev
-    container_name: visualizer_server
+    container_name: visualizer-server-dev
     command: >
       sh -c "python manage.py runserver 0.0.0.0:9000"
     ports:

@@ -1,4 +1,4 @@
-name: sorting-visualizer
+name: sorting-visualizer-emulator
 
 services:
   traefik:
@@ -17,7 +17,7 @@ services:
       - ./config/traefik/traefik_api.yml:/traefik_api.yml
   nginx:
     image: nginx:1.25.4
-    container_name: visualizer_nginx
+    container_name: visualizer-nginx-emulator
     networks:
       - default
       - web
@@ -28,13 +28,13 @@ services:
       - traefik.http.routers.buch.tls.certresolver=lets-encrypt
       - traefik.http.services.buch.loadbalancer.server.port=80
     volumes:
-      - ./config/nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/nginx.emulator.conf:/etc/nginx/nginx.conf
       - /var/www/sorting-visualizer:/app
     depends_on:
       - gunicorn
   redis:
     image: redis:7.2.4
-    container_name: visualizer_redis
+    container_name: visualizer-redis-emulator
     restart: always
     ports:
       - "6579:6579"
@@ -45,7 +45,7 @@ services:
       - REDIS_PORT=6579
   db:
     image: postgres:15.6
-    container_name: visualizer_db
+    container_name: visualizer-db-emulator
     environment:
       - POSTGRES_DB=sorting_visualizer
       - POSTGRES_USER=postgres
@@ -55,11 +55,11 @@ services:
     command: -p 5432
   gunicorn:
     build:
-      dockerfile: Dockerfile-prod
-    container_name: visualizer_gunicorn
+      dockerfile: Dockerfile-emulator
+    container_name: visualizer-gunicorn-emulator
     command: >
-      sh -c "python manage.py migrate --settings config.settings.prod &&
-             python manage.py collectstatic --noinput --settings config.settings.prod &&
+      sh -c "python manage.py migrate --settings config.settings.dev &&
+             python manage.py collectstatic --noinput --settings config.settings.dev &&
              /usr/bin/supervisord -c /etc/supervisord.conf &&
              gunicorn visualizer.wsgi:application --name visualizer_app --workers 3 --bind=unix:/app/run/gunicorn.sock --log-level=info"
     expose:
@@ -77,8 +77,8 @@ services:
       - db
   supervisor:
     build:
-      dockerfile: Dockerfile-prod
-    container_name: visualizer_supervisor
+      dockerfile: Dockerfile-emulator
+    container_name: visualizer-supervisor-emulator
     command: >
       sh -c "/usr/bin/supervisord -c /etc/supervisord.conf"
     environment:
