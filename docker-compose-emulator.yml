@@ -1,0 +1,78 @@
+services:
+  nginx:
+    image: nginx:1.25.4
+    container_name: visualizer_nginx_emulator
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/www/sorting-visualizer/config/nginx/nginx.emulator.conf:/etc/nginx/nginx.conf
+      - /var/www/sorting-visualizer:/app
+#      - ./data/certbot/conf:/etc/letsencrypt
+#      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - gunicorn
+#  certbot:
+#    image: certbot/certbot:latest
+#    volumes:
+#      - ./data/certbot/conf:/etc/letsencrypt
+#      - ./data/certbot/www:/var/www/certbot
+#    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  redis:
+    image: redis:7.2.4
+    container_name: visualizer_redis
+    restart: always
+    ports:
+      - "6579:6579"
+    volumes:
+      - /dаta/redis:/root/redis
+    command: --port 6579
+    environment:
+      - REDIS_PORT=6579
+  db:
+    image: postgres:15.6
+    container_name: visualizer_db
+    environment:
+      - POSTGRES_DB=sorting_visualizer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - "5432" # Publishes 5432 to other containers but NOT to host machine
+    command: -p 5432
+  gunicorn:
+    build:
+      dockerfile: Dockerfile-emulator
+    container_name: visualizer_gunicorn_emulator
+    command: >
+      sh -c "python manage.py migrate --settings config.settings.dev &&
+             python manage.py collectstatic --noinput --settings config.settings.dev &&
+             /usr/bin/supervisord -c /etc/supervisord.conf &&
+             gunicorn visualizer.wsgi:application --name visualizer_app --workers 3 --bind=unix:/app/run/gunicorn.sock --log-level=info"
+    expose:
+      - 9000
+    volumes:
+      - /var/www/sorting-visualizer:/app
+#    ports:
+#      - "9000:9000"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_NAME=sorting_visualizer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+  supervisor:
+    build:
+      dockerfile: Dockerfile-emulator
+    container_name: visualizer_supervisor_emulator
+    command: >
+      sh -c "/usr/bin/supervisord -c /etc/supervisord.conf"
+    environment:
+      - POSTGRES_NAME=sorting_visualizer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+#volumes:
+#  code:
