@@ -1,0 +1,16 @@
+http:
+  middlewares:
+    simpleAuth:
+      basicAuth:
+        users:
+          - 'admin:$apr1$BljPhh0R$G5q4JAD2r11vw3VFf04Bm/'
+  routers:
+    api:
+      rule: Host(`traefik-dashboard.sorting-visualizer.dami.li`)
+      entrypoints:
+        - websecure
+      middlewares:
+        - simpleAuth
+      service: api@internal
+      tls:
+        certResolver: lets-encrypt
